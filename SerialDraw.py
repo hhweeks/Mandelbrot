@@ -1,32 +1,20 @@
-from PIL import Image, ImageDraw
-from Mandelbrot import testConv
+from Mandelbrot import mset_from_bounds, process_result_pairs
 import timeit
+from Bounds import WIDTH, HEIGHT, XSTART, XEND, YSTART, YEND, MAXITER, NUM_PROCS, P0HEIGHT, PNHEIGHT
 
-width=1400
-height=width
-xstart=-2
-xend=1
-ystart=-1.5
-yend=1.5
-maxiter=255#max int we can represent as a pixel value
+
+def serial_draw():
+    pass
+    arr = mset_from_bounds(MAXITER, WIDTH, HEIGHT, XSTART, XEND, YSTART, YEND, 0, HEIGHT)
+    tup = (0, arr)
+    return tup
+
 
 start_time = timeit.default_timer()
 
-image = Image.new('RGB', (width,height),(0,0,0))
-draw = ImageDraw.Draw(image)
+resultPair = []
+resultPair.append(serial_draw())
+process_result_pairs(resultPair, WIDTH, HEIGHT, MAXITER)
 
-for i in range(0,width):
-    for j in range(0,height):
-        re = xstart + (i/width) * (xend - xstart)
-        im = ystart + (j/height) * (yend - ystart)
-        c = complex(re,im)
-
-        color=255
-        if testConv(c, maxiter):
-            color=0
-        draw.point([i,j],(color,color,color))
-
-elapsed_time = timeit.default_timer() -start_time
+elapsed_time = timeit.default_timer() - start_time
 print("elapsed time {}".format(elapsed_time))
-image.show()
-#image.save('output.png','PNG')

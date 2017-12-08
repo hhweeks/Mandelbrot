@@ -1,0 +1,10 @@
+WIDTH = 1400
+HEIGHT = WIDTH
+XSTART = -2
+XEND = 1
+YSTART = -1.5
+YEND = 1.5
+MAXITER = 100  #started with 255, 100 looks better
+NUM_PROCS = 4
+P0HEIGHT = HEIGHT // NUM_PROCS
+PNHEIGHT = (HEIGHT // NUM_PROCS) + (HEIGHT % NUM_PROCS)  # adjust for dimension not divis by NUM_PROCS
